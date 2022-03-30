@@ -1,18 +1,21 @@
 import csv
 import glob
+from functools import reduce
 from typing import List
 import process
+from classification_and_parsing import analyze
+from classification_and_parsing.external_service import collect_db
+from classification_and_parsing.external_service.web_server import upload_one_data
 
 
 def retrieve_file_paths() -> List[str]:
     return glob.glob('raw-data/sample/*')
 
 
-def main():
+def main_legacy():
     paths = retrieve_file_paths()
-    print(paths)
 
-    result = []
+    results = []
     idx = 0
 
     f = open('result/test.csv', 'w', encoding='utf-8-sig', newline='')
@@ -27,38 +30,32 @@ def main():
             if html == b'':
                 # print('No Content')
                 continue
-            title = process.get_title(html)
-            lang = process.get_language(html)
-            words = []
-            if '__label__en' in lang:
-                words = process.get_words(html)
-            category = ''
-            if '__label__en' in lang:
-                category = process.get_category(words)
-            site_tracking_codes = process.get_site_tracking_codes(html)
-            personal_information = process.get_personal_information(html)
-            others = process.get_others(html)
-            # print('title: ', title)
-            # print('lang: ', lang)
-            # print('words: ', words)
-            # print('category: ', category)
-            # print('site_tracking_codes: ', site_tracking_codes)
-            # print('personal_information: ', personal_information)
-            # print('others: ', others)
-            result.append({
-                'id': idx,
-                'title': title,
-                'lang': lang,
-                'words': words,
-                'category': category,
-                'site_tracking_code': site_tracking_codes,
-                'personal_information': personal_information,
-                'others': others
-            })
-            wr.writerow([title, lang, category, site_tracking_codes, personal_information, others])
+            result = analyze.analyze_html(html)
+            results.append(result)
+            wr.writerow(result.values())
             idx += 1
-    print(result)
     f.close()
+
+
+def execute_tasks():
+    docs = collect_db.get_new_data()
+    for doc in docs:
+        html = doc['<raw html field name>']
+        result = analyze.analyze_html(html)
+
+        send_data = {
+            'title': doc.title,
+            'reference_url': doc.reference_url,
+            'screenshot': doc.screenshot,
+            **result
+        }
+        success = upload_one_data(send_data)
+        if success:
+            collect_db.update_is_analyzed(doc['_id'])
+
+
+def main():
+    execute_tasks()
 
 
 if __name__ == '__main__':
