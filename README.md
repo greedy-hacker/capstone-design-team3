@@ -1,11 +1,9 @@
 # capstone-design-team3
 
 ## Members
-- [이재현](https://github.com/greedy-hacker) 
-- [이기영](https://github.com/lgy159) 
-- [최민주](https://github.com/minju412)
 - [전민재](https://github.com/Madb33) (팀장) 
-- [탐](https://github.com/hieupml)
+- [이재현](https://github.com/greedy-hacker) 
+- [최민주](https://github.com/minju412)
 
 ## Github 활용
 - 회의시 회의록 Issues 에 등록
