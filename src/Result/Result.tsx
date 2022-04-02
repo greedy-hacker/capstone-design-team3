@@ -1,9 +1,10 @@
 import {Header} from "../Layout/Header/Header";
 import {Container} from "@mui/material";
-import {MyTable} from "./MyTable/MyTable";
 import SearchIconInput from "../SubComponents/SearchIconInput";
 import {MyListView} from "./MyListView/MyListView";
 import {SubMenu} from "./SubMenu/SubMenu";
+import {ErrorBoundary} from "react-error-boundary";
+import {Suspense, useState} from "react";
 
 export function Result() {
   return (
@@ -13,7 +14,11 @@ export function Result() {
         <SearchIconInput placeholder='Search Url | Title | Parent Url'/>
         <SubMenu />
         {/*<MyTable/>*/}
-        <MyListView />
+        <ErrorBoundary FallbackComponent={() => <h2>ERROR!!!</h2>}>
+          <Suspense fallback={<h1>Loading ...</h1>}>
+            <MyListView />
+          </Suspense>
+        </ErrorBoundary>
       </Container>
     </>
   );

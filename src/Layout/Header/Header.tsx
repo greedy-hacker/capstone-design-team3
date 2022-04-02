@@ -11,8 +11,8 @@ const headersData = [
     href: "/result",
   },
   {
-    label: "Visualization",
-    href: "/visualization",
+    label: "Search",
+    href: "/search",
   },
 ];
 

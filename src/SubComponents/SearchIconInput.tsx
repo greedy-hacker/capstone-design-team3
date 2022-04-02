@@ -6,10 +6,12 @@ export default function SearchIconInput({
   value,
   onChange,
   placeholder,
+  endsWith,
 }: {
   value?: any;
   onChange?: any;
   placeholder?: string;
+  endsWith?: any
 }) {
   return (
     <Box
@@ -36,6 +38,7 @@ export default function SearchIconInput({
         }}
         value={value}
         onChange={onChange}
+        endAdornment={endsWith}
       />
     </Box>
   );

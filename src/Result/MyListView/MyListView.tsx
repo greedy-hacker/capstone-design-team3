@@ -1,14 +1,18 @@
 import {Box, Button, Divider, Paper, Typography} from "@mui/material";
 import {FlexColumnBox, FlexRowBox} from "../../SubComponents/LayoutComponents";
-import {EllipsisTypography} from "../../SubComponents/TextComponent";
+import {EllipsisTypography, T} from "../../SubComponents/TextComponent";
 import {CategoryTag, LanguageTag, Tag} from "../../SubComponents/Tag";
 import {DialogContainer} from "../../SubComponents/DialogContainer";
-import React from "react";
+import React, {useState} from "react";
+import {SiteInfo, UseAnalyzedData} from "../../swr_hooks/useAnalyzedData";
 
 
 export function MyListView() {
-  const data = getSiteInformation()
+  // const data = getSiteInformation()
+  const [siteInfo, setSiteInfo] = useState<SiteInfo | null>(null);
+  const {data} = UseAnalyzedData()
 
+  console.log(data)
 
   function objToTags(obj: { [key: string]: string[] }) {
     return (
@@ -24,6 +28,7 @@ export function MyListView() {
   return (
     <>
       <DialogContainer open={open} onClose={() => setOpen(false)} title='보고서' buttons={null} maxWidth='lg'>
+        {JSON.stringify(siteInfo || {})}
       </DialogContainer>
       {
         data.map(row => (
@@ -35,13 +40,18 @@ export function MyListView() {
               <Divider orientation="vertical" flexItem sx={{mx: 1}}/>
               <FlexColumnBox sx={{flex: 1, minWidth: 0, height: '100%'}}>
                 <EllipsisTypography
-                  sx={{fontSize: '1.2rem', pr: 3, pb: 1}}><strong>{row.title}</strong></EllipsisTypography>
+                  sx={{fontSize: '1.2rem', pr: 3, pb: 1}}><strong>{row.title}</strong>
+                </EllipsisTypography>
+                <FlexRowBox sx={{alignItems: 'baseline'}}>
+                  <T sx={{pr: 1}}>url:</T>
+                  <EllipsisTypography
+                    sx={{fontSize: '0.8rem', pr: 3, pb: 1}}>{row.url}
+                  </EllipsisTypography>
+                </FlexRowBox>
                 <FlexRowBox sx={{alignItems: 'center'}}>
                   <FlexRowBox sx={{alignItems: 'baseline', pr: 3}}>
                     <strong>Language</strong> :
-                    {row.lang.map(lang => (
-                      <LanguageTag key={lang} language={lang}/>
-                    ))}
+                    <LanguageTag language={row.language}/>
                   </FlexRowBox>
                   <FlexRowBox sx={{alignItems: 'center', pr: 3}}>
                     <strong>Category</strong> :
@@ -56,7 +66,7 @@ export function MyListView() {
                 </FlexRowBox>
                 <Divider/>
                 <FlexRowBox sx={{alignItems: 'center'}}>
-                  Site Tracking Codes : {objToTags(row.site_tracking_code)}
+                  Site Tracking Codes : {objToTags(row.site_tracking_codes)}
                 </FlexRowBox>
                 <Divider/>
                 <FlexRowBox sx={{alignItems: 'center'}}>
@@ -68,7 +78,10 @@ export function MyListView() {
                 </FlexRowBox>
                 <Divider/>
               </FlexColumnBox>
-              <Button variant='contained' onClick={() => setOpen(true)}>
+              <Button variant='contained' onClick={() => {
+                setOpen(true);
+                setSiteInfo(row);
+              }}>
                 Detail
               </Button>
             </FlexRowBox>
@@ -80,21 +93,7 @@ export function MyListView() {
 }
 
 
-function getSiteInformation() {
-  return data;
-}
-
-interface Row {
-  id: number;
-  title: string;
-  lang: string[];
-  category: string;
-  site_tracking_code: { [key: string]: string[] };
-  personal_information: { [key: string]: string[] };
-  others: { [key: string]: string[] };
-}
-
-const data: Row[] = [{
+const data = [{
   'id': 0,
   'title': 'Buy Cocaine 96% – Phoenix Market Place',
   'lang': ['en'],
