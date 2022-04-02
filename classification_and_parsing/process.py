@@ -8,7 +8,7 @@ from category import adult, drug, leak, gambling, weapon, murder, hacking
 import fasttext
 
 
-def get_title(html: bytes) -> str:
+def get_title(html: str) -> str:
     soup = BeautifulSoup(html, 'html.parser')
     title = soup.find('title')
     return title.text
@@ -17,32 +17,28 @@ def get_title(html: bytes) -> str:
 model = fasttext.load_model('lid.176.ftz')
 
 
-def get_language(html: bytes) -> List[str]:
+def get_language(html: str) -> List[str]:
     soup = BeautifulSoup(html, 'html.parser')
-    # try:
-    #     lang_html = soup.html['lang']
-    # except:
-    #     lang_html = ''
     body = soup.find('body')
     for script in body(["script", "style"]):
         script.decompose()
+
     text = body.get_text()
-    # lang = detect(text)
-    # return [lang_html, lang]
-    langs, ratio = model.predict(text.replace('\n', ' '), k=2)
-    print(langs, ratio)
-    lang = []
+    text = text.replace('\n', ' ')
+
+    lang = 'unknown'
+
+    langs, ratio = model.predict(text, k=1)
     if ratio[0] > 0.1:
-        lang.append(langs[0])
-        if ratio[1] > 0.1:
-            lang.append(langs[1])
-    print(lang)
+        lang = langs[0]
+
+    lang = lang.replace('__label__', '')
 
     return lang
 
 
 # for en
-def get_words(html: bytes) -> List[str]:
+def get_words(html: str) -> List[str]:
     stop_words = set(stopwords.words('english'))
     soup = BeautifulSoup(html, 'html.parser')
     body = soup.find('body')
@@ -93,10 +89,10 @@ def get_site_tracking_codes(html: bytes) -> Dict[str, List[str]]:
     google_analytics = re.compile(r'UA-\d+-\d+')
     google_site_verification1 = re.compile(r'<meta\s+name="google-site-verification"\s+content="([^"]+)"\s+/>')
     google_site_verification2 = re.compile(r'<meta\s+content="([^"]+)"\s+name="google-site-verification"\s+/>')
-    gsv = google_site_verification1.findall(html.decode('utf-8'))
-    gsv += google_site_verification2.findall(html.decode('utf-8'))
+    gsv = google_site_verification1.findall(html)
+    gsv += google_site_verification2.findall(html)
     return {
-        'google_analytics': google_analytics.findall(html.decode('utf-8')),
+        'google_analytics': google_analytics.findall(html),
         'google_site_verification': gsv
     }
 
@@ -106,8 +102,8 @@ def get_personal_information(html: bytes) -> Dict[str, List[str]]:
     phone = re.compile(r'01[0-9]-[0-9]{3,4}-[0.9]{4}')
 
     return {
-        'email': email.findall(html.decode('utf-8')),
-        'phone': phone.findall(html.decode('utf-8')),
+        'email': email.findall(html),
+        'phone': phone.findall(html),
     }
 
 
@@ -115,6 +111,6 @@ def get_others(html: bytes) -> Dict[str, List[str]]:
     telegram = re.compile(r'https?://(?:t(?:elegram)?.me|telegram.org)/(?:joinchat/)?(?:[a-zA-Z0-9_]{5,32})')
     bitcoin = re.compile(r'(?:[^a-zA-Z0-9]|\s|^)((?:[13]|bc1)[A-HJ-NP-Za-km-z1-9]{27,34})(?:[^a-zA-Z0-9]|\s|$)')
     return {
-        'telegram': telegram.findall(html.decode('utf-8')),
-        'bitcoin': bitcoin.findall(html.decode('utf-8'))
+        'telegram': telegram.findall(html),
+        'bitcoin': bitcoin.findall(html)
     }

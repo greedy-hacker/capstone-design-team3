@@ -3,9 +3,9 @@ import glob
 from functools import reduce
 from typing import List
 import process
-from classification_and_parsing import analyze
-from classification_and_parsing.external_service import collect_db
-from classification_and_parsing.external_service.web_server import upload_one_data
+import analyze
+from external_service import collect_db
+from external_service import web_server
 
 
 def retrieve_file_paths() -> List[str]:
@@ -38,20 +38,44 @@ def main_legacy():
 
 
 def execute_tasks():
-    docs = collect_db.get_new_data()
+    docs = collect_db.get_new_data(10)
+
+    n_docs = len(list( docs))
+    if n_docs == 0:
+        print('no data to be analyzed')
+        return
+
+    id_list = []
+
+    f = open('./tmp/analyzed.csv', 'w', encoding='utf-8-sig', newline='\n')
+    wr = csv.writer(f)
+    wr.writerow(['url', 'title', 'language', 'category', 'site_tracking_codes', 'personal_information', 'others', 'reference_url'])
     for doc in docs:
-        html = doc['<raw html field name>']
+        html = doc['raw']
         result = analyze.analyze_html(html)
 
-        send_data = {
-            'title': doc.title,
-            'reference_url': doc.reference_url,
-            'screenshot': doc.screenshot,
-            **result
+        analyzed = {
+            'url': doc['url'].replace('\n', ''),
+            'title': result['title'],
+            'language': result['language'],
+            'category': result['category'],
+            'site_tracking_code': result['site_tracking_code'],
+            'personal_information': result['personal_information'],
+            'others': result['others'],
+            'reference_url': doc['parentUrl'] or '',
         }
-        success = upload_one_data(send_data)
-        if success:
-            collect_db.update_is_analyzed(doc['_id'])
+        wr.writerow(analyzed.values())
+        id_list.append(doc['_id'])
+    f.close()
+    success = web_server.upload_data('./tmp/analyzed.csv')
+    if success:
+        print('success')
+        collect_db.update_is_analyzed(id_list)
+    return
+        
+
+        
+
 
 
 def main():

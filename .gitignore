@@ -1,2 +1,6 @@
+myvenv/
+classification_and_parsing/.env
+classification_and_parsing/__pycache__/
 .idea/
-__pycache__
+*/__pycache__/
+classification_and_parsing/external_service/__pycache__/

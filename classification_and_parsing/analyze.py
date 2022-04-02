@@ -1,18 +1,22 @@
 from functools import reduce
 
-from classification_and_parsing import process
+import process
 
 
-def analyze_html(html: bytes):
+def analyze_html(html:str):
     title = process.get_title(html)
     lang = process.get_language(html)
     words = []
-    if '__label__en' in lang:
-        words = process.get_words(html)
-    category = ''
-    if '__label__en' in lang:
-        category = reduce(lambda acc, cur: cur if cur[1] > acc[1] else acc, process.get_category(words).items(),
-                          ('', 0))[0]
+    words = process.get_words(html)
+    category = 'unknown'
+    count = 0
+    candidates = process.get_category(words)
+    print (candidates)
+    for key,value in candidates.items():
+        if value >= 10 and value > count:
+            count = value
+            category = key
+
     site_tracking_codes = process.get_site_tracking_codes(html)
     personal_information = process.get_personal_information(html)
     others = process.get_others(html)
