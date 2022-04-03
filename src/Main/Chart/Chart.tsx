@@ -3,12 +3,13 @@ import {ArgumentAxis, Chart, ValueAxis, BarSeries, Title} from "@devexpress/dx-r
 import {Animation} from '@devexpress/dx-react-chart';
 
 const data = [
+  {category: 'unknown', count: 170},
   {category: 'adult', count: 170},
   {category: 'drug', count: 200},
   {category: 'gambling', count: 120},
-  {category: 'info-leak', count: 45},
   {category: 'weapon', count: 15},
   {category: 'murder', count: 6},
+  {category: 'info-leak', count: 6},
 ];
 
 export function BarChart() {

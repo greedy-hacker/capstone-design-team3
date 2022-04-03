@@ -3,15 +3,15 @@ import {Link as RouterLink} from 'react-router-dom';
 
 const headersData = [
   {
-    label: "Main",
+    label: "메인",
     href: "/",
   },
   {
-    label: "Result",
+    label: "분석 결과",
     href: "/result",
   },
   {
-    label: "Search",
+    label: "분석 요청",
     href: "/search",
   },
 ];

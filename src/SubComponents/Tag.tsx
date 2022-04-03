@@ -2,11 +2,13 @@ import {Chip} from "@mui/material";
 
 
 const categoryColors:any = {
+  unknown: 'white',
   adult: 'red',
   drug: 'violet',
   gambling: 'green',
   weapon: 'blue',
-  murder: 'white'
+  murder: 'white',
+  'info-leak': 'white',
 }
 
 const languageColors:any = {
