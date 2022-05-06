@@ -16,8 +16,7 @@ def get_title(html: str) -> str:
 
 model = fasttext.load_model('lid.176.ftz')
 
-
-def get_language(html: str) -> List[str]:
+def get_language(html: str) -> str:
     soup = BeautifulSoup(html, 'html.parser')
     body = soup.find('body')
     for script in body(["script", "style"]):

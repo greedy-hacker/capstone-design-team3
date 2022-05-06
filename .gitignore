@@ -4,3 +4,5 @@ classification_and_parsing/__pycache__/
 .idea/
 */__pycache__/
 classification_and_parsing/external_service/__pycache__/
+/task_queue/web_server/node_modules/
+/task_queue/.env

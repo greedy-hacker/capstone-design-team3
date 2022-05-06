@@ -20,9 +20,9 @@ def upload_one_data(data):
 
 def upload_data(file_path):
     try:
-        files = {'file':('analyzed.csv', open(file_path,'rb'), 'text/csv')}
+        files = {'file': ('analyzed.csv', open(file_path, 'rb'), 'text/csv')}
         r = requests.post(upload_url, files=files)
-        print (r.content)
+        print(r.content)
         r.raise_for_status()
         return True
     except requests.exceptions.RequestException as e:  # This is the correct syntax
