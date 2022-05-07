@@ -7,9 +7,13 @@ console.log('[+] setup')
 await tm.setup()
 console.log('[+] process Response')
 await tm.processResponse((id, result) => {
+  func(id, result)
   console.log(`[+] id: ${id}, result: ${JSON.stringify(result)}`)
 })
 
-export async function newTask(msg, id) {
-  await tm.requestTask(msg, id);
-}
+console.log('task send start')
+tm.requestTask({task: 'asdf'}, 'id1')
+tm.requestTask({task: 'asdf'}, 'id2')
+tm.requestTask({task: 'asdf'}, 'id3')
+tm.requestTask({task: 'asdf'}, 'id4')
+console.log('task send end')

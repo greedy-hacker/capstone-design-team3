@@ -14,6 +14,9 @@ export class TaskManager {
   }
 
   async processResponse(func) {
+    if (!func) {
+      throw Error('callback function is not assigned to response event')
+    }
     const ch = this.channel;
     await ch.consume("response", async function (msg) {
       const correlationId = msg.properties.correlationId;

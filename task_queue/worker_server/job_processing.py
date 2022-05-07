@@ -19,6 +19,6 @@ class Worker:
                              body=json.dumps(result))
             ch.basic_ack(delivery_tag=method.delivery_tag)
 
-        self.channel.basic_qos(prefetch_count=1)
+        # self.channel.basic_qos(prefetch_count=1)
         self.channel.basic_consume(queue='request', on_message_callback=callback)
         self.channel.start_consuming()
