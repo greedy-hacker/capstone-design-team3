@@ -21,14 +21,6 @@ async function processTaskResult(taskId, result) {
 }
 
 async function getTaskResult(userId) {
-  const user = await User.findOne({
-    where: {
-      id: userId
-    }
-  })
-  if (user.realTimeStatus === 'READY') return null;
-  if (user.realTimeStatus === 'PENDING') return null;
-  if (user.realTimeStatus === 'SUCCESS') return user.realTimeResult
   // if user(userId).realTimeStatus is READY, then return null
   // if user(userId).realTimeStatus is PENDING, then return null
   // if user(userId).realTimeStatus is SUCCESS, then return user(userId).realTimeResult

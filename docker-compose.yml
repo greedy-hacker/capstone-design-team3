@@ -7,6 +7,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: mysql
       MYSQL_DATABASE: darkweb-db
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -15,6 +17,27 @@ services:
       RABBITMQ_PASSWORD: guest
     ports:
       - "15672:15672"
+
+  tor-analyzer-worker:
+    build:
+      context: ./crawler
+      dockerfile: Dockerfile.dev
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+      PYTHONUNBUFFERED: 0
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./crawler/:/app/
+    command:
+      - bash
+      - -c
+      - |
+        bash -c 'while !</dev/tcp/rabbitmq/5672; do echo "rbmq is not up. sleep 1 second..."; sleep 1; done;'
+        python tor_analyzer_worker.py
+        
 
   web-server:
     build:
@@ -45,7 +68,7 @@ services:
       - |
         bash -c 'while !</dev/tcp/web-db/3306; do echo "db is not up. sleep 1 second..."; sleep 1; done;'
         echo 'db is up! 10 seconds sleep more'
-        sleep 10
+        sleep 20
         echo 'now run server'
         npm run dev
 
