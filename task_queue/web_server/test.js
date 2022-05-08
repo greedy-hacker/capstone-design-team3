@@ -1,4 +1,4 @@
-import {TaskManager} from "./jobDeliver.js";
+import {TaskManager} from "./taskManager.js";
 import {config} from "dotenv";
 
 config({path: '../.env'});
@@ -7,7 +7,6 @@ console.log('[+] setup')
 await tm.setup()
 console.log('[+] process Response')
 await tm.processResponse((id, result) => {
-  func(id, result)
   console.log(`[+] id: ${id}, result: ${JSON.stringify(result)}`)
 })
 

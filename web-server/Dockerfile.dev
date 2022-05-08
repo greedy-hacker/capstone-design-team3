@@ -1,0 +1,6 @@
+FROM node:17.3
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+ADD    https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
+RUN chmod +x /wait-for-it.sh

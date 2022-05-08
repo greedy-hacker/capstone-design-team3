@@ -1,0 +1,67 @@
+version: "3.9"
+services:
+  web-db:
+    image: mysql:8.0.21
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: darkweb-db
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    ports:
+      - "15672:15672"
+
+  web-server:
+    build:
+      context: ./web-server
+      dockerfile: Dockerfile.dev
+    environment:
+      CLIENT_PORT: http://localhost:3000
+      COOKIE_SECRET: cookiesecret
+      JWT_SECRET_KEY: jwtsecretkey
+      PORT: 3065
+      MYSQL_DATABASE: darkweb-db
+      MYSQL_HOST: web-db
+      MYSQL_PASSWORD: mysql
+      MYSQL_USERNAME: root
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_USER: guest
+      RABBITMQ_PASSWORD: guest
+    depends_on:
+      - web-db
+      - rabbitmq
+    ports:
+      - "3065:3065"
+    volumes:
+      - ./web-server/:/app/
+    command:
+      - bash
+      - -c
+      - |
+        bash -c 'while !</dev/tcp/web-db/3306; do echo "db is not up. sleep 1 second..."; sleep 1; done;'
+        echo 'db is up! 10 seconds sleep more'
+        sleep 10
+        echo 'now run server'
+        npm run dev
+
+  web-client:
+    build:
+      context: ./web-client
+      dockerfile: Dockerfile.dev
+    environment:
+      REACT_APP_BACKEND_HOST: localhost
+      REACT_APP_BACKEND_PORT: 3065
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web-client/:/app/
+    command:
+        - bash
+        - -c
+        - |
+          npm run start
