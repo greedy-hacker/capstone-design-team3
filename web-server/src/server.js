@@ -21,9 +21,7 @@ require('./middlewares/passport')(passport);
 // processResponse 는 결과 도착시 수행될 함수를 인자로 받음
 const taskManager = require('./amqp_client/taskManager')
 taskManager.setup().then(async () => {
-    await taskManager.processResponse((id, result) => {
-        console.log(`[+] id: ${id}, result: ${JSON.stringify(result)}`)
-    })
+    await taskManager.processResponse(require('./api/search/search.services').processTaskResult)
 })
 
 

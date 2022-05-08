@@ -27,7 +27,7 @@ class TaskManager {
     })
   }
 
-  async requestTask(data, correlationId) {
+  async requestTask(correlationId, data) {
     if (!data || !correlationId) {
       throw new Error('no data or no taskId')
     }
