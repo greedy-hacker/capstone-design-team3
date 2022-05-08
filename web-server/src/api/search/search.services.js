@@ -3,23 +3,38 @@ const db = require("../../models")
 const User = db.users;
 
 async function createNewTask(userId, domain) {
-  const user = await User.findOne({
-    where: {
-      id: userId
+    try{
+        // 분석결과,상태에 각각 null과 PENDING 삽입
+        await User.update(
+            {
+                realTimeResult: 'null',
+                realTimeStatus: 'PENDING',
+            },
+            { where: {id: userId} }
+        )
+        await taskManager.requestTask(userId, {domain});
+    } catch(err) {
+        console.error(err)
     }
-  })
-
-  // user(userId).realTimeResult -> null
-  // user(userId). realTimeStatus -> PENDING
-  await taskManager.requestTask(userId,{domain});
 }
 
 async function processTaskResult(taskId, result) {
-  //  user(taskId).realTimeResult -> result
-  // user(taskId).realTimeStatus -> SUCCESS
+    try{
+        // 분석결과,상태에 각각 result와 SUCCESS 삽입
+        await User.update(
+            {
+                realTimeResult: result,
+                realTimeStatus: 'SUCCESS',
+            },
+            { where: {id: taskId} }
+        )
+    } catch(err) {
+        console.error(err)
+    }
   console.log(`[+] id: ${taskId}, result: ${JSON.stringify(result)}`)
 }
 
+// Db에 저장된 분석결과를 유저가 확인하는 기능 // success일 경우에만 분석결과(json)를 리턴하고 ready,pending은 해당 메시지 전달!
 async function getTaskResult(userId) {
   const user = await User.findOne({
     where: {
