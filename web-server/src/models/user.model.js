@@ -18,7 +18,7 @@ module.exports = (sequelize, Sequelize) => {
             allowNull: true,
         },
         realTimeResult: { // 실시간 처리 결과
-            type: Sequelize.STRING(200),
+            type: Sequelize.JSON,
             allowNull: true,
         },
     }, {

@@ -41,8 +41,8 @@ async function getTaskResult(userId) {
       id: userId
     }
   })
-  if (user.realTimeStatus === 'READY') return null;
-  if (user.realTimeStatus === 'PENDING') return null;
+  if (user.realTimeStatus === 'READY') return '아직 분석이 시작되지 않았습니다.';
+  if (user.realTimeStatus === 'PENDING') return '분석이 시작되었습니다. 잠시 기다려주세요.';
   if (user.realTimeStatus === 'SUCCESS') return user.realTimeResult
   // if user(userId).realTimeStatus is READY, then return null
   // if user(userId).realTimeStatus is PENDING, then return null
