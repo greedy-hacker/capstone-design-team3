@@ -1,5 +1,5 @@
 FROM node:17.3
 WORKDIR /app
-RUN npm install -g create-react-app
+RUN npm install -g react-scripts
 COPY package.json package-lock.json ./
 RUN npm install
