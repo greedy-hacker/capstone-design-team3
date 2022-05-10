@@ -10,7 +10,8 @@ export function Main() {
         <Box sx={{bgcolor: 'rgb(66, 165, 245)',color: 'white', my: 3, p:3}}>
           <Typography>Darkweb Research Project</Typography>
         </Box>
-        <BarChart/>
+        {/*<BarChart/>*/}
+
       </Container>
     </>
   );

@@ -10,18 +10,18 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
-import {FlexColumnBox, FlexRowBox} from "../../SubComponents/LayoutComponents";
-import {EllipsisTypography, T} from "../../SubComponents/TextComponent";
-import {CategoryTag, LanguageTag, Tag} from "../../SubComponents/Tag";
-import {DialogContainer} from "../../SubComponents/DialogContainer";
+import {FlexColumnBox, FlexRowBox} from "../../CommonComponents/LayoutComponents";
+import {EllipsisTypography, T} from "../../CommonComponents/TextComponent";
+import {CategoryTag, LanguageTag, Tag} from "../../CommonComponents/Tag";
+import {DialogContainer} from "../../CommonComponents/DialogContainer";
 import React, {useState} from "react";
-import {SiteInfo, UseAnalyzedData} from "../../swr_hooks/useAnalyzedData";
+import {SiteInfo, useAnalyzedData} from "../../SWRHooks/useAnalyzedData";
 
 
 export function MyListView() {
   // const data = getSiteInformation()
   const [siteInfo, setSiteInfo] = useState<SiteInfo | null>(null);
-  const {data} = UseAnalyzedData()
+  const {data} = useAnalyzedData()
 
   console.log(data)
 

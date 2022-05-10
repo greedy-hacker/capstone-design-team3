@@ -1,7 +1,7 @@
 import {Header} from "../Layout/Header/Header";
 import {Box, Container, Typography} from "@mui/material";
-import SearchIconInput from "../SubComponents/SearchIconInput";
-import {RectButton} from "../SubComponents/ButtonComponents";
+import SearchIconInput from "../CommonComponents/SearchIconInput";
+import {RectButton} from "../CommonComponents/ButtonComponents";
 
 export function Search() {
   return (

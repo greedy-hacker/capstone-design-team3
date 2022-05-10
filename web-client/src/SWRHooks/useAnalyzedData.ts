@@ -17,7 +17,7 @@ export class SiteInfo {
   others!: { [key: string]: string[] };
 }
 
-export const UseAnalyzedData = () => {
+export const useAnalyzedData = () => {
   const {data, mutate, error} = useSWR(`/results`, fetcher, {suspense: true});
   return {data: plainToInstance(SiteInfo, data as any[]), error, mutate};
 }

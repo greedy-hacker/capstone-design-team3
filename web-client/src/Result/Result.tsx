@@ -1,6 +1,6 @@
 import {Header} from "../Layout/Header/Header";
 import {Container} from "@mui/material";
-import SearchIconInput from "../SubComponents/SearchIconInput";
+import SearchIconInput from "../CommonComponents/SearchIconInput";
 import {MyListView} from "./MyListView/MyListView";
 import {SubMenu} from "./SubMenu/SubMenu";
 import {ErrorBoundary} from "react-error-boundary";

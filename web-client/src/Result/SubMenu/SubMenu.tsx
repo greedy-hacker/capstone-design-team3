@@ -1,6 +1,6 @@
 import {Button, ButtonGroup} from "@mui/material";
-import {FlexRowBox} from "../../SubComponents/LayoutComponents";
-import {T} from "../../SubComponents/TextComponent";
+import {FlexRowBox} from "../../CommonComponents/LayoutComponents";
+import {T} from "../../CommonComponents/TextComponent";
 
 const languages = ['en', 'ko', 'fr', 'ru', 'ja']
 const categories = ['all', 'unknown', 'adult', 'drug', 'gambling', 'weapon', 'murder', 'info-leak']
