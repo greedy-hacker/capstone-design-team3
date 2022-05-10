@@ -92,7 +92,8 @@ const signup = async (req, res) => {
         await User.create({
             userName: req.body.userName,
             userEmail: req.body.userEmail,
-            userPw: hashedPw
+            userPw: hashedPw,
+            realTimeStatus: 'READY'
         });
         // res.json();
         res.status(201).send('회원가입 성공');
