@@ -38,9 +38,9 @@ def main_legacy():
 
 
 def execute_tasks():
-    docs = collect_db.get_new_data(10)
+    docs = list(collect_db.get_new_data(10))
 
-    n_docs = len(list( docs))
+    n_docs = len(docs)
     if n_docs == 0:
         print('no data to be analyzed')
         return
@@ -52,7 +52,10 @@ def execute_tasks():
     wr.writerow(['url', 'title', 'language', 'category', 'site_tracking_codes', 'personal_information', 'others', 'reference_url'])
     for doc in docs:
         html = doc['raw']
+
         result = analyze.analyze_html(html)
+        if result is None:
+            continue
 
         analyzed = {
             'url': doc['url'].replace('\n', ''),
