@@ -10,6 +10,8 @@ services:
       MYSQL_DATABASE: darkweb-db
     cap_add:
       - SYS_NICE  # CAP_SYS_NICE
+    ports:
+      - "3306:3306"
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
