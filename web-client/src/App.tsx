@@ -1,6 +1,6 @@
 import React, {Suspense} from 'react';
 import './App.css';
-import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
+import {BrowserRouter, Routes, Route, Navigate, useNavigate} from 'react-router-dom';
 import {Main} from "./Main/Main";
 import {Result} from "./Result/Result";
 import {Search} from "./Search/Search";
@@ -24,16 +24,20 @@ function App() {
 
 function UserPageRoutesWrapper() {
   return (
-    <ErrorBoundary FallbackComponent={() => <Navigate to="login"/>}>
-      <Suspense fallback={<h1>Loading ...</h1>}>
-        <UserPageRoutes/>
-      </Suspense>
-    </ErrorBoundary>
+    <UserPageRoutes/>
   )
 }
 
 function UserPageRoutes() {
-  const {user, error, mutate} = useUser();
+  const navigate = useNavigate();
+  console.log('useUser navigate');
+  const {user, error, mutate} = useUser({suspense: false});
+  if (!user && !error) {
+    return <>'Loading...'</>
+  }
+  if (error) {
+    navigate('/login');
+  }
 
   return (
     <Routes>

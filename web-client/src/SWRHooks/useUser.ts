@@ -10,7 +10,8 @@ export class User {
   realTimeResult!: string;
 }
 
-export const useUser = () => {
-  const {data, mutate, error} = useSWR(`/auth/`, fetcher, {suspense: true});
+export const useUser = (option?: {suspense: boolean}) => {
+  const enabledSuspense = !option || option.suspense;
+  const {data, mutate, error} = useSWR(`/auth/`, fetcher, {suspense: enabledSuspense});
   return {user: data && plainToInstance(User, data), error, mutate};
 }

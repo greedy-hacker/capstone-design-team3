@@ -13,10 +13,11 @@ export function LoginWrapper() {
   React.useEffect(() => {
     sessionCheck().then((result) => {
       if (result) {
+        console.log('useEffect navigate');
         navigate('/');
       }
     });
-  }, [navigate]);
+  }, []);
 
   return (
     <Login/>
