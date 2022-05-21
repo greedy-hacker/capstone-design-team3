@@ -1,13 +1,14 @@
-import React, {Suspense} from 'react';
+import React from 'react';
 import './App.css';
-import {BrowserRouter, Routes, Route, Navigate, useNavigate} from 'react-router-dom';
+import {BrowserRouter, Route, Routes, useNavigate, Outlet} from 'react-router-dom';
 import {Main} from "./Main/Main";
 import {Result} from "./Result/Result";
 import {Search} from "./Search/Search";
 import {useUser} from "./SWRHooks/useUser";
-import {ErrorBoundary} from "react-error-boundary";
 import {RegisterWrapper} from "./Authentication/Register";
 import {LoginWrapper} from "./Authentication/Login";
+import {ProjectList} from "./Project/ProjectList";
+import {Project} from "./Project/Project";
 
 
 function App() {
@@ -44,6 +45,10 @@ function UserPageRoutes() {
       <Route path="*" element={<Main/>}/>
       <Route path="result" element={<Result/>}/>
       <Route path="search" element={<Search/>}/>
+      <Route path="project" element={<Outlet/>}>
+        <Route index element={<ProjectList/>}/>
+        <Route path=":projectId" element={<Project />}/>
+      </Route>
     </Routes>
   )
 }

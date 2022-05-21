@@ -1,11 +1,9 @@
-import {useNavigate} from "react-router-dom";
-import {Link as RouterLink} from 'react-router-dom';
-import React, {Suspense} from "react";
+import {Link as RouterLink, useNavigate} from "react-router-dom";
+import React from "react";
 import {sessionCheck} from "../ServerAPICalls/sessionCheck";
 import {login} from "../ServerAPICalls/login";
 import {Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import axios from "axios";
 
 export function LoginWrapper() {
   const navigate = useNavigate();
@@ -103,7 +101,7 @@ function Login() {
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <RouterLink to="/register" >
+              <RouterLink to="/register">
                 계정이 없다면 회원가입을 해주세요.
               </RouterLink>
             </Grid>

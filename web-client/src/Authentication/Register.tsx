@@ -1,6 +1,5 @@
 import React from "react";
-import {Link as RouterLink} from 'react-router-dom';
-import {useNavigate} from "react-router-dom";
+import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import {register} from "../ServerAPICalls/register";
 import {Avatar, Box, Button, Container, CssBaseline, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -52,7 +51,7 @@ function Register() {
         setter = setUserPw;
         break;
     }
-    setter?.(e.target.value);
+    setter?.(value);
   }
 
   return (

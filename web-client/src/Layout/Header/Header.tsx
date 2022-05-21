@@ -3,7 +3,7 @@ import {AccountCircle} from '@mui/icons-material';
 import {Link as RouterLink, useNavigate} from 'react-router-dom';
 import React from "react";
 import {logout} from "../../ServerAPICalls/logout";
-import { AccountDialog } from "./AccountDialog";
+import {AccountDialog} from "./AccountDialog";
 
 const headersData = [
   {
@@ -11,12 +11,16 @@ const headersData = [
     href: "/",
   },
   {
-    label: "분석 결과",
+    label: "수집 목록",
     href: "/result",
   },
   {
     label: "분석 요청",
     href: "/search",
+  },
+  {
+    label: "모니터링",
+    href: "/project",
   },
 ];
 

@@ -4,7 +4,7 @@ import SearchIconInput from "../CommonComponents/SearchIconInput";
 import {MyListView} from "./MyListView/MyListView";
 import {SubMenu} from "./SubMenu/SubMenu";
 import {ErrorBoundary} from "react-error-boundary";
-import {Suspense, useState} from "react";
+import {Suspense} from "react";
 
 export function Result() {
   return (

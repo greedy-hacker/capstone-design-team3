@@ -9,6 +9,7 @@ if(process.env.NODE_ENV !== 'test'){ // 테스트 환경에서는 로그없이 �
     app.use(morgan('dev'));
 }
 
+
 const cors = require('cors');
 
 // 패스포트 설정
@@ -23,6 +24,7 @@ const taskManager = require('./amqp_client/taskManager')
 taskManager.setup().then(async () => {
     await taskManager.processResponse(require('./api/search/search.services').processTaskResult)
 })
+
 
 
 // 라우터 설정

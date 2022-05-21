@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import axios from "axios";
 
 export async function register(userName: string, userEmail: string, userPw: string) {
   const {result, error} = await axios

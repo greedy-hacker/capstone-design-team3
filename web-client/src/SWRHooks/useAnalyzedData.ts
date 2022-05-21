@@ -18,6 +18,6 @@ export class SiteInfo {
 }
 
 export const useAnalyzedData = () => {
-  const {data, mutate, error} = useSWR(`/results`, fetcher, {suspense: true});
+  const {data, mutate, error} = useSWR(`/api/results`, fetcher, {suspense: true});
   return {data: plainToInstance(SiteInfo, data as any[]), error, mutate};
 }

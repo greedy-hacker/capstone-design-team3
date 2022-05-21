@@ -1,5 +1,5 @@
 import {Bar} from 'react-chartjs-2';
-import {Chart as ChartJs, registerables } from 'chart.js';
+import {Chart as ChartJs, registerables} from 'chart.js';
 
 ChartJs.register(...registerables);
 

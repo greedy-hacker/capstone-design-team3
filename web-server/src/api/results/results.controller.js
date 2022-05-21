@@ -7,7 +7,7 @@ const Op = Sequelize.Op;
 // pagination with filtering
 const getResults = async (req, res) => {
     // pagination
-    const paged = req.query.paged;
+    const paged = req.query.paged || 1;
     const _limit = 10;
     const _offset = (paged-1) * _limit; // 1페이지부터 시작
 
@@ -38,7 +38,7 @@ const getResults = async (req, res) => {
             category: category_attr,
         },
         raw : true,
-        order: [[`${sortby}`, `${order}`]],
+        order: (order && sortby) ? [[`${sortby}`, `${order}`]] : undefined,
         limit:_limit,
         offset:_offset
         })

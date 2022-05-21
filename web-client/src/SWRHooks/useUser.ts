@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import {fetcher} from "./fetcher";
-import {plainToInstance, Transform} from "class-transformer";
+import {plainToInstance} from "class-transformer";
 
 export class User {
   id!: number;
