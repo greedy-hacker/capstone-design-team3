@@ -5,8 +5,10 @@ export async function login(userEmail: string, userPw: string) {
     .post('/auth/login', {userEmail, userPw})
     .then(result => ({result, error: undefined})).catch(error => ({error, result: undefined}));
   if (result) {
-    localStorage.setItem('access-token', result.data.token);
-    axios.defaults.headers.common["Authorization"] = result.data.token;
+    const {accessToken, refreshToken} = result.data.data;
+    localStorage.setItem('access-token', accessToken);
+    localStorage.setItem('refresh-token', refreshToken);
+    axios.defaults.headers.common["Authorization"] = accessToken;
   }
   console.log(result, error);
   return {result, error};

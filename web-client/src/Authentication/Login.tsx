@@ -29,7 +29,6 @@ function Login() {
   const handleSubmit = async () => {
     const {result, error} = await login(userEmail, userPw);
     if (result) {
-      alert(result.data.token);
       navigate('/')
     } else {
       alert(error.response.data);
@@ -47,7 +46,7 @@ function Login() {
         setter = setUserPw;
         break;
     }
-    setter?.(e.target.value);
+    setter?.(value);
   }
 
   return (
