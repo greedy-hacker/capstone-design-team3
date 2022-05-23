@@ -1,27 +1,6 @@
 # project
 .idea/
 
-
-# crawler
-myvenv/
-classification_and_parsing/.env
-classification_and_parsing/__pycache__/
-*/__pycache__/
-classification_and_parsing/external_service/__pycache__/
-/task_queue/web_server/node_modules/
-/task_queue/.env
-
-
 # web-client
 web-client/node_modules/
 web-client/.env
-
-# web-server
-web-server/node_modules/
-web-server/.env
-
-classification_and_parsing/
-crawler/
-task_queue/
-web-server/
-docker-compose.yml
