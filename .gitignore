@@ -19,3 +19,9 @@ web-client/.env
 # web-server
 web-server/node_modules/
 web-server/.env
+
+classification_and_parsing/
+crawler/
+task_queue/
+web-server/
+docker-compose.yml
