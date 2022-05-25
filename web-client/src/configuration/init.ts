@@ -1,7 +1,10 @@
 import axios from "axios";
 
 export const init = () => {
-  axios.defaults.headers.common["Authorization"] = localStorage.getItem('access-token') || '';
+  const accessToken = localStorage.getItem('access-token')
+  if (accessToken) {
+    axios.defaults.headers.common["Authorization"] = accessToken;
+  }
   axios.defaults.baseURL = `http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/`;
 // axios.defaults.withCredentials = true;
   axios.interceptors.response.use(
@@ -19,7 +22,7 @@ export const init = () => {
           const accessToken = localStorage.getItem('access-token');
           const refreshToken = localStorage.getItem("refresh-token");
           // token refresh 요청
-          const {data} = await axios.get(`/refresh/token`, {
+          const {data} = await axios.get(`/auth/token`, {
             headers: {
               'Authorization': accessToken || '',
               'Refresh': refreshToken || '',

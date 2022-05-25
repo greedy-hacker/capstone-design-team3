@@ -17,7 +17,13 @@ export class SiteInfo {
   others!: { [key: string]: string[] };
 }
 
-export const useAnalyzedData = () => {
-  const {data, mutate, error} = useSWR(`/api/results`, fetcher, {suspense: true});
+export const useAnalyzedData = (options?: {paged?: number, sortby?: string, order?: string, lang?: string, category?: string}) => {
+  let query = `?paged=${options?.paged || '1'}&sortby=${options?.sortby || 'id'}&order=${options?.order || 'desc'}`
+  if (options?.lang)
+    query += `&lang=${options.lang}`
+  if (options?.category)
+    query += `&category=${options.category}`
+
+  const {data, mutate, error} = useSWR(`/results${query}`, fetcher, {suspense: true});
   return {data: plainToInstance(SiteInfo, data as any[]), error, mutate};
 }

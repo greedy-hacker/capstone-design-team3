@@ -9,6 +9,7 @@ import {RegisterWrapper} from "./Authentication/Register";
 import {LoginWrapper} from "./Authentication/Login";
 import {ProjectList} from "./Project/ProjectList";
 import {Project} from "./Project/Project";
+import axios from "axios";
 
 
 function App() {
@@ -31,8 +32,8 @@ function UserPageRoutesWrapper() {
 
 function UserPageRoutes() {
   const navigate = useNavigate();
-  console.log('useUser navigate');
   const {user, error, mutate} = useUser({suspense: false});
+
   if (!user && !error) {
     return <>'Loading...'</>
   }
