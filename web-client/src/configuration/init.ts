@@ -5,7 +5,7 @@ export const init = () => {
   if (accessToken) {
     axios.defaults.headers.common["Authorization"] = accessToken;
   }
-  axios.defaults.baseURL = `http://${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/`;
+  axios.defaults.baseURL = `${process.env.REACT_APP_BACKEND_HOST}:${process.env.REACT_APP_BACKEND_PORT}/`;
 // axios.defaults.withCredentials = true;
   axios.interceptors.response.use(
     (response) => {
