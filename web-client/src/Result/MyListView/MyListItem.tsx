@@ -10,14 +10,14 @@ export function MyListItem({row, onClickDetailButton}: { row: SiteInfo, onClickD
     return (
       <>
         {Object.entries(obj).filter(([key, value]) => value.length > 0).map(([key, value]) => (
-          <Tag key={key} text={`${key} : ${value.length}`}/>
+          <Tag key={`${key}`} text={`${key} : ${value.length}`}/>
         ))}
       </>
     )
   }
 
   return (
-    <Paper key={row.id} elevation={3} sx={{p: 1, my: 2}}>
+    <Paper elevation={3} sx={{p: 1, my: 2}}>
       <FlexRowBox>
         <Box sx={{width: '220px', height: '150px'}}>
           스크린샷 미리보기

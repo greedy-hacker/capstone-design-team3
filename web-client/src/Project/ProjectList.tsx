@@ -6,42 +6,37 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import React from "react";
 import {ProjectCreateDialog} from "./ProjectCreateDialog";
 import {useNavigate} from "react-router-dom";
+import {useProjects} from "../SWRHooks/useProjects";
 
-const Item = (props: { title: string, description: string, id: string }) => {
-  const {title, description, id} = props;
+const Item = (props: { title: string, description: string, id: number, targetDomain: string }) => {
+  const {title, description, id, targetDomain} = props;
 
   const navigate = useNavigate();
 
   return (
     <Paper variant="outlined" sx={{height: '100px', p: 2, cursor: 'pointer', '&:hover': {borderColor: 'blue'}}}
            onClick={() => {
-             navigate(id)
+             navigate(`${id}`)
            }}>
       <T sx={{fontSize: '1rem', pb: 1}}><strong>{title}</strong></T>
-      <T>{description}</T>
+      <T>target domain: {targetDomain}</T>
+      <T>description: {description}</T>
     </Paper>
   )
 }
 
 
-function useProjects(): { projectName: string, description: string, id: string }[] {
-  return [
-    {projectName: 'proj1', description: 'hihi', id: '1251251'},
-    {projectName: 'proj2', description: 'hihaaai', id: '124124'},
-    {projectName: 'proj3', description: 'hihi', id: '1251asdf251'},
-    {projectName: 'proj4', description: 'hihi', id: '12512zxcv51'},
-    {projectName: 'proj5', description: 'hihi', id: '1251251'},
-  ]
-}
 
 export function ProjectList() {
   const [open, setOpen] = React.useState(false);
 
 
-  const projects = useProjects();
+  const {projects, error} = useProjects();
   const openProjectCreateDialog = () => {
     setOpen(true);
   }
+  if (!projects && !error) return <>Loading</>
+  if (error) return <>error</>
   return (
     <>
       <Header/>
@@ -49,9 +44,9 @@ export function ProjectList() {
       <Container sx={{mt: 4}}>
         <Grid container rowSpacing={3} columnSpacing={3}>
           {
-            projects.map(project => (
-              <Grid item xs={4}>
-                <Item title={project.projectName} description={project.description} id={project.id}/>
+            projects!.map(project => (
+              <Grid item xs={4} key={project.id}>
+                <Item title={project.projectName} description={project.description} id={project.id} targetDomain={project.targetDomain}/>
               </Grid>
             ))
           }

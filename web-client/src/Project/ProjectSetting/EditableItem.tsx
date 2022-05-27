@@ -3,8 +3,8 @@ import AutoFixNormalIcon from "@mui/icons-material/AutoFixNormal";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React from "react";
 
-export function EditableItem(props: {title: string, onEdit: any, onDelete: any}) {
-  const {title, onEdit, onDelete} = props;
+export function EditableItem(props: {value: string, onEdit: any, onDelete: any}) {
+  const {value, onEdit, onDelete} = props;
   return (
     <ListItem secondaryAction={
       <>
@@ -16,7 +16,7 @@ export function EditableItem(props: {title: string, onEdit: any, onDelete: any})
         </IconButton>
       </>
     }>
-      <ListItemText primary={title}/>
+      <ListItemText primary={value}/>
     </ListItem>
   )
 }

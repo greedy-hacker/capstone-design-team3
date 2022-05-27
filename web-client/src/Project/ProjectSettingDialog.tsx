@@ -6,8 +6,8 @@ import {BaseInfo} from "./ProjectSetting/BaseInfo";
 import {MonitoringURLSetting} from "./ProjectSetting/MonitoringURLSetting";
 import {KeywordSetting} from "./ProjectSetting/KeywordSetting";
 
-export function ProjectSettingDialog(props: { open: boolean, setOpen: any }) {
-  const {open, setOpen} = props;
+export function ProjectSettingDialog(props: { open: boolean, setOpen: any, projectId: string }) {
+  const {open, setOpen, projectId} = props;
   const [tab, setTab] = React.useState(0);
 
   const handleTabChange = (e: any, newValue: React.SetStateAction<number>) => {
@@ -18,13 +18,13 @@ export function ProjectSettingDialog(props: { open: boolean, setOpen: any }) {
 
   switch (tab) {
     case 0:
-      component = <BaseInfo/>;
+      component = <BaseInfo projectId={projectId}/>;
       break;
     case 1:
-      component = <MonitoringURLSetting/>;
+      component = <MonitoringURLSetting projectId={projectId}/>;
       break;
     case 2:
-      component = <KeywordSetting/>;
+      component = <KeywordSetting projectId={projectId}/>;
       break;
   }
 

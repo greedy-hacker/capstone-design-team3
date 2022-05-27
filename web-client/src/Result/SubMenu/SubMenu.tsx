@@ -20,7 +20,7 @@ export function SubMenu({setResultOptions, resultOptions, count}: { setResultOpt
         <T sx={{pr: 3}}>언어</T>
         <TextField size='small' sx={{width: '150px'}} label='언어 선택' select value={resultOptions.lang} onChange={(e) => {
           let value: string | undefined = e.target.value;
-          if (value === 'all') value = undefined
+          if (value === 'all') value = ''
           setResultOptions((prev: any) => ({
             ...prev,
             lang: value
@@ -32,7 +32,7 @@ export function SubMenu({setResultOptions, resultOptions, count}: { setResultOpt
         <T sx={{pl: 5, pr: 3}}>카테고리</T>
         <TextField size='small' sx={{width: '150px'}} label='카테고리 선택' select value={resultOptions.category} onChange={(e) => {
           let value: string | undefined = e.target.value;
-          if (value === 'all') value = undefined
+          if (value === 'all') value = ''
           setResultOptions((prev: any) => ({
             ...prev,
             category: value

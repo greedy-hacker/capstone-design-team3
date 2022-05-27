@@ -16,19 +16,34 @@ export interface ResultOptions {
   order: string;
   lang?: string;
   category?: string;
+  title?: string;
+  url?: string;
+}
+
+const initialOptions= {
+  paged: 1,
+  sortby: 'id',
+  order: 'desc',
+  lang: '',
+  category: '',
+  title: '',
+  url: ''
 }
 
 export function Result() {
   const {count, error} = useCount();
-  const [resultOptions, setResultOptions] = React.useState<ResultOptions>({
-    paged: 1,
-    sortby: 'id',
-    order: 'desc',
-    lang: undefined,
-    category: undefined
-  });
-  const [title, setTitle] = React.useState('');
-  const [url, setUrl] = React.useState('');
+  const [resultOptions, setResultOptions] = React.useState<ResultOptions>(initialOptions);
+  const [resultOptionsInput, setResultOptionsInput] = React.useState<ResultOptions>(initialOptions);
+
+  const handleChange = (e:any) => {
+    setResultOptionsInput((prev: any) => ({
+      ...prev,
+      [e.target.name]:e.target.value
+    }))
+  }
+  const syncResultOptions = () => {
+    setResultOptions(resultOptionsInput);
+  }
 
   if (!count && !error) return <>Loading</>
   if (error) return <>Error</>
@@ -38,17 +53,21 @@ export function Result() {
       <Container maxWidth='lg' sx={{display: 'flex', flexDirection: "column", mt: 3}}>
         <FlexRowBox sx={{alignItems: 'center', mb: 2}}>
           <T sx={{pr: 3}}>URL Contains</T>
-          <TextField size='small' placeholder='https://xyz.onion' sx={{flex: 1}}
-                     onBlur={(e) => setTitle(e.target.value)}/>
+          <TextField size='small' placeholder='https://xyz.onion' sx={{flex: 1}} name='url'
+                     onBlur={handleChange}/>
           <T sx={{px: 3}}>Title Contains</T>
-          <TextField size='small' placeholder='Title Sub String' sx={{flex: 1}}
-                    onBlur={(e) => setUrl(e.target.value)}/>
-          <RectButton sx={{fontSize: '1rem', borderRadius: '4px', bgcolor: '#1877d2', ml: 3}}>Search</RectButton>
+          <TextField size='small' placeholder='Title Sub String' sx={{flex: 1}} name='title'
+                    onBlur={handleChange}/>
+          <RectButton sx={{fontSize: '1rem', borderRadius: '4px', bgcolor: '#1877d2', ml: 3}} onClick={syncResultOptions}>Search</RectButton>
         </FlexRowBox>
-        <SubMenu setResultOptions={setResultOptions} resultOptions={resultOptions} count={count}/>
+        <SubMenu setResultOptions={setResultOptionsInput} resultOptions={resultOptionsInput} count={count}/>
         <Divider sx={{my: 2}}/>
         <FlexRowBox sx={{justifyContent: 'flex-end'}}>
-          <Pagination count={100} page={resultOptions.paged} onChange={(e, value) => {
+          <Pagination count={100} page={resultOptionsInput.paged} onChange={(e, value) => {
+            setResultOptionsInput((prev: any) => ({
+              ...prev,
+              paged: value
+            }))
             setResultOptions((prev: any) => ({
               ...prev,
               paged: value
@@ -61,7 +80,11 @@ export function Result() {
           </Suspense>
         </ErrorBoundary>
         <FlexRowBox sx={{justifyContent: 'flex-end'}}>
-          <Pagination count={100} page={resultOptions.paged} onChange={(e, value) => {
+          <Pagination count={100} page={resultOptionsInput.paged} onChange={(e, value) => {
+            setResultOptionsInput((prev: any) => ({
+              ...prev,
+              paged: value
+            }))
             setResultOptions((prev: any) => ({
               ...prev,
               paged: value

@@ -19,7 +19,7 @@ export function MyListView({resultOptions}: {resultOptions: ResultOptions}) {
     <>
       <DetailDialog open={open} setOpen={setOpen} siteInfo={siteInfo}/>
       {
-        data.map(row => (<MyListItem row={row} onClickDetailButton={onClickDetailButton}/>))
+        data.map(row => (<MyListItem key={row.id} row={row} onClickDetailButton={onClickDetailButton}/>))
       }
     </>
   )

@@ -29,7 +29,6 @@ function Register() {
   const [userPw, setUserPw] = React.useState<string>('');
   const handleSubmit = async () => {
     const {result, error} = await register(userName, userEmail, userPw);
-    console.log(result, error);
     if (result?.status === 201) {
       alert(result.data)
       navigate('/login');

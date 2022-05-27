@@ -10,6 +10,5 @@ export async function login(userEmail: string, userPw: string) {
     localStorage.setItem('refresh-token', refreshToken);
     axios.defaults.headers.common["Authorization"] = accessToken;
   }
-  console.log(result, error);
   return {result, error};
 }

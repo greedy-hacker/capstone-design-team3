@@ -8,6 +8,6 @@ export class CountInfo {
 }
 
 export const useCount = () => {
-  const {data, mutate, error} = useSWR(`/results/number`, fetcher);
+  const {data, mutate, error} = useSWR(`/results/number/category`, fetcher);
   return {count: data && plainToInstance(CountInfo, data as any[]), error, mutate};
 }
