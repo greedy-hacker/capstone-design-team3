@@ -5,10 +5,10 @@ import {ResultOptions} from "../Result";
 import {CountInfo} from "../../SWRHooks/useCount";
 
 const languages = ['en', 'ko', 'fr', 'ru', 'ja']
-const categories = ['unknown', 'adult', 'drug', 'gambling', 'weapon', 'murder', 'info-leak']
+const categories = ['unknown', 'adult', 'hacking', 'drug', 'gambling', 'weapon', 'violence', 'counterfeit']
 const sortby = [
   {key: 'traffic', label: '트래픽 빈도'},
-  {key: 'id', label: '검색 시간'},
+  {key: 'search_time', label: '검색 시간'},
   {key: 'title', label: '제목'},
 ];
 const order = ['desc', 'asc'];

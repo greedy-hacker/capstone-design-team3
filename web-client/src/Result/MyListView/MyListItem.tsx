@@ -20,7 +20,12 @@ export function MyListItem({row, onClickDetailButton}: { row: SiteInfo, onClickD
     <Paper elevation={3} sx={{p: 1, my: 2}}>
       <FlexRowBox>
         <Box sx={{width: '220px', height: '150px'}}>
-          스크린샷 미리보기
+          <img
+            src={row.image}
+            style={{width: '220px', height: '150px'}}
+            alt={row.title}
+            loading="lazy"
+          />
         </Box>
         <Divider orientation="vertical" flexItem sx={{mx: 1}}/>
         <FlexColumnBox sx={{flex: 1, minWidth: 0, height: '100%'}}>
