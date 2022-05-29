@@ -13,32 +13,32 @@ import {RectButton} from "../CommonComponents/ButtonComponents";
 import {useState} from "react";
 import {SiteInfo} from "../SWRHooks/useAnalyzedData";
 import {DetailDialog} from "../Result/MyListView/DetailDialog";
+import {PageNode} from "./SearchResult";
 
 
-export function TreeViewResult() {
+export function TreeViewResult({root}: { root: PageNode }) {
   const [open, setOpen] = React.useState(false);
   const [siteInfo, setSiteInfo] = useState<SiteInfo | null>(null);
-  const onOpen = () => {setOpen(true)}
 
+  const handleClickDetail = (siteInfo: SiteInfo) => {
+    setSiteInfo(siteInfo);
+    setOpen(true);
+  }
+
+  const renderTree = (node: PageNode) => (
+    <CustomTreeItem nodeId={node.path} siteInfo={node.data!} handleClickDetail={handleClickDetail}>
+      {node.children.map((node) => renderTree(node))}
+    </CustomTreeItem>
+  )
   return (
     <>
       <DetailDialog open={open} setOpen={setOpen} siteInfo={siteInfo}/>
       <TreeView
-        aria-label="file system navigator"
         defaultCollapseIcon={<ExpandMoreIcon/>}
         defaultExpandIcon={<ChevronRightIcon/>}
         sx={{width: '100%'}}
       >
-        <CustomTreeItem nodeId="1" label="xyz.onion/">
-          <CustomTreeItem nodeId="2" label="forum1/">
-            <CustomTreeItem nodeId="3" label="article1"/>
-            <CustomTreeItem nodeId="4" label="article2"/>
-            <CustomTreeItem nodeId="5" label="article3"/>
-          </CustomTreeItem>
-          <CustomTreeItem nodeId="6" label="forum2"/>
-          <CustomTreeItem nodeId="7" label="forum3"/>
-          <CustomTreeItem nodeId="8" label="forum4"/>
-        </CustomTreeItem>
+        {root.children.map((node) => renderTree(node))}
       </TreeView>
     </>
   )
@@ -46,7 +46,10 @@ export function TreeViewResult() {
 
 
 const CustomContent = React.forwardRef(function CustomContent(
-  props: TreeItemContentProps,
+  props: TreeItemContentProps & {
+    siteInfo: SiteInfo;
+    handleClickDetail: any;
+  },
   ref,
 ) {
   const {
@@ -57,6 +60,8 @@ const CustomContent = React.forwardRef(function CustomContent(
     icon: iconProp,
     expansionIcon,
     displayIcon,
+    siteInfo,
+    handleClickDetail
   } = props;
 
   const {
@@ -109,13 +114,21 @@ const CustomContent = React.forwardRef(function CustomContent(
         component="div"
         className={classes.label}
       >
-        {label}
+        {siteInfo.url}
       </Typography>
-      <RectButton sx={{fontSize: '0.7rem', borderRadius: '4px', bgcolor: '#7ea4ca'}}>Detail</RectButton>
+      <RectButton sx={{fontSize: '0.7rem', borderRadius: '4px', bgcolor: '#7ea4ca'}} onClick={() => {
+        console.log(siteInfo);
+        handleClickDetail(siteInfo);
+      }}>Detail</RectButton>
     </div>
   );
 });
 
-const CustomTreeItem = (props: TreeItemProps) => (
-  <TreeItem ContentComponent={CustomContent} {...props} />
+type CustomTreeItemProps = TreeItemProps & {
+  siteInfo: SiteInfo;
+  handleClickDetail: any;
+}
+
+const CustomTreeItem = ({siteInfo, handleClickDetail, ...props}: CustomTreeItemProps) => (
+  <TreeItem ContentComponent={CustomContent as any} ContentProps={{siteInfo, handleClickDetail} as any} {...props} />
 );

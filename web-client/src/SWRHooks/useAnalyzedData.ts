@@ -15,6 +15,10 @@ export class SiteInfo {
   personal_information!: { [key: string]: string[] };
   @Transform(({value}) => {return JSON.parse(value.replace(/'/g, '"'))})
   others!: { [key: string]: string[] };
+  html!: string;
+  traffic!: string;
+  image!: string;
+  search_time!: string;
 }
 
 export const useAnalyzedData = (options?: { paged?: number, sortby?: string, order?: string, lang?: string, category?: string, title?: string, url?: string }) => {
