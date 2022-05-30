@@ -1,24 +1,5 @@
 import {Chip} from "@mui/material";
 
-
-const categoryColors:any = {
-  unknown: 'white',
-  adult: 'red',
-  drug: 'violet',
-  gambling: 'green',
-  weapon: 'blue',
-  murder: 'white',
-  'info-leak': 'white',
-}
-
-const languageColors:any = {
-  en: 'red',
-  ko: 'orange',
-  ja: 'green',
-  fr: 'blue',
-  ru: 'black'
-}
-
 export function CategoryTag(props: { category: string}) {
   return (
     <Chip

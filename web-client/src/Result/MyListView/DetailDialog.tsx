@@ -4,6 +4,7 @@ import {Box, Switch, Table, TableBody, TableCell, TableContainer, TableRow, Text
 import {T} from "../../CommonComponents/TextComponent";
 import React from "react";
 import {FlexRowBox} from "../../CommonComponents/LayoutComponents";
+import dayjs from "dayjs";
 
 const beautify_html = require('js-beautify').html;
 
@@ -75,6 +76,10 @@ export function DetailDialog({open, setOpen, siteInfo}: { open: boolean, setOpen
               <TableRow>
                 <TableCell width='150px'>URL</TableCell>
                 <TableCell>{siteInfo!.url}</TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell width='150px'>검색시간</TableCell>
+                <TableCell>{dayjs.unix(parseFloat(siteInfo!.search_time)).format('YYYY-MM-DD HH:mm:ss')}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell>Title</TableCell>

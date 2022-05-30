@@ -8,7 +8,8 @@ import React, {Suspense} from "react";
 import {T} from "../CommonComponents/TextComponent";
 import {FlexRowBox} from "../CommonComponents/LayoutComponents";
 import {RectButton} from "../CommonComponents/ButtonComponents";
-import {useCount} from "../SWRHooks/useCount";
+import {useCategoryCount} from "../SWRHooks/useCategoryCount";
+import {useLanguageCount} from "../SWRHooks/useLanguageCount";
 
 export interface ResultOptions {
   paged: number;
@@ -22,7 +23,7 @@ export interface ResultOptions {
 
 const initialOptions= {
   paged: 1,
-  sortby: 'id',
+  sortby: 'search_time',
   order: 'desc',
   lang: '',
   category: '',
@@ -31,7 +32,7 @@ const initialOptions= {
 }
 
 export function Result() {
-  const {count, error} = useCount();
+  const {languageCount, error} = useLanguageCount();
   const [resultOptions, setResultOptions] = React.useState<ResultOptions>(initialOptions);
   const [resultOptionsInput, setResultOptionsInput] = React.useState<ResultOptions>(initialOptions);
 
@@ -45,7 +46,7 @@ export function Result() {
     setResultOptions(resultOptionsInput);
   }
 
-  if (!count && !error) return <>Loading</>
+  if (!languageCount && !error) return <>Loading</>
   if (error) return <>Error</>
   return (
     <>
@@ -60,7 +61,7 @@ export function Result() {
                     onBlur={handleChange}/>
           <RectButton sx={{fontSize: '1rem', borderRadius: '4px', bgcolor: '#1877d2', ml: 3}} onClick={syncResultOptions}>Search</RectButton>
         </FlexRowBox>
-        <SubMenu setResultOptions={setResultOptionsInput} resultOptions={resultOptionsInput} count={count}/>
+        <SubMenu setResultOptions={setResultOptionsInput} resultOptions={resultOptionsInput} languageCount={languageCount}/>
         <Divider sx={{my: 2}}/>
         <FlexRowBox sx={{justifyContent: 'flex-end'}}>
           <Pagination count={100} page={resultOptionsInput.paged} onChange={(e, value) => {

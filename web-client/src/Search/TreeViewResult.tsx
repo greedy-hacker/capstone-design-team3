@@ -26,7 +26,8 @@ export function TreeViewResult({root}: { root: PageNode }) {
   }
 
   const renderTree = (node: PageNode) => (
-    <CustomTreeItem nodeId={node.path} siteInfo={node.data!} handleClickDetail={handleClickDetail}>
+    <CustomTreeItem key={node.path} nodeId={node.path} siteInfo={node.data} path={node.path}
+                    handleClickDetail={handleClickDetail}>
       {node.children.map((node) => renderTree(node))}
     </CustomTreeItem>
   )
@@ -47,8 +48,9 @@ export function TreeViewResult({root}: { root: PageNode }) {
 
 const CustomContent = React.forwardRef(function CustomContent(
   props: TreeItemContentProps & {
-    siteInfo: SiteInfo;
+    siteInfo: SiteInfo | null;
     handleClickDetail: any;
+    path: string
   },
   ref,
 ) {
@@ -61,7 +63,8 @@ const CustomContent = React.forwardRef(function CustomContent(
     expansionIcon,
     displayIcon,
     siteInfo,
-    handleClickDetail
+    handleClickDetail,
+    path
   } = props;
 
   const {
@@ -114,21 +117,23 @@ const CustomContent = React.forwardRef(function CustomContent(
         component="div"
         className={classes.label}
       >
-        {siteInfo.url}
+        {path}
       </Typography>
-      <RectButton sx={{fontSize: '0.7rem', borderRadius: '4px', bgcolor: '#7ea4ca'}} onClick={() => {
+      {siteInfo && <RectButton sx={{fontSize: '0.7rem', borderRadius: '4px', bgcolor: '#7ea4ca'}} onClick={() => {
         console.log(siteInfo);
         handleClickDetail(siteInfo);
-      }}>Detail</RectButton>
+      }}>Detail</RectButton>}
     </div>
   );
 });
 
 type CustomTreeItemProps = TreeItemProps & {
-  siteInfo: SiteInfo;
+  siteInfo: SiteInfo | null;
   handleClickDetail: any;
+  path: string
 }
 
-const CustomTreeItem = ({siteInfo, handleClickDetail, ...props}: CustomTreeItemProps) => (
-  <TreeItem ContentComponent={CustomContent as any} ContentProps={{siteInfo, handleClickDetail} as any} {...props} />
+const CustomTreeItem = ({siteInfo, handleClickDetail, path, ...props}: CustomTreeItemProps) => (
+  <TreeItem ContentComponent={CustomContent as any}
+            ContentProps={{siteInfo, handleClickDetail, path} as any} {...props} />
 );

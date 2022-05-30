@@ -1,19 +1,17 @@
-import {Button, ButtonGroup, MenuItem, TextField} from "@mui/material";
+import {MenuItem, TextField} from "@mui/material";
 import {FlexColumnBox, FlexRowBox} from "../../CommonComponents/LayoutComponents";
 import {T} from "../../CommonComponents/TextComponent";
 import {ResultOptions} from "../Result";
-import {CountInfo} from "../../SWRHooks/useCount";
+import {LanguageCount} from "../../SWRHooks/useLanguageCount";
 
-const languages = ['en', 'ko', 'fr', 'ru', 'ja']
 const categories = ['unknown', 'adult', 'hacking', 'drug', 'gambling', 'weapon', 'violence', 'counterfeit']
 const sortby = [
   {key: 'traffic', label: '트래픽 빈도'},
   {key: 'search_time', label: '검색 시간'},
   {key: 'title', label: '제목'},
 ];
-const order = ['desc', 'asc'];
 
-export function SubMenu({setResultOptions, resultOptions, count}: { setResultOptions: any, resultOptions: ResultOptions, count: CountInfo }) {
+export function SubMenu({setResultOptions, resultOptions, languageCount}: { setResultOptions: any, resultOptions: ResultOptions, languageCount: LanguageCount[] }) {
   return (
     <FlexColumnBox>
       <FlexRowBox sx={{alignItems: 'center', justifyContent: 'space-between'}}>
@@ -27,7 +25,7 @@ export function SubMenu({setResultOptions, resultOptions, count}: { setResultOpt
           }))
         }}>
           <MenuItem value='all'>ALL</MenuItem>
-          {languages.map((l) => (<MenuItem key={l} value={l}>{l}</MenuItem>))}
+          {languageCount.map((l) => (<MenuItem key={l.language} value={l.language}>{l.language}</MenuItem>))}
         </TextField>
         <T sx={{pl: 5, pr: 3}}>카테고리</T>
         <TextField size='small' sx={{width: '150px'}} label='카테고리 선택' select value={resultOptions.category} onChange={(e) => {

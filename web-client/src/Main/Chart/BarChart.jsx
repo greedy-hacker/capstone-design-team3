@@ -1,5 +1,6 @@
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJs, registerables} from 'chart.js';
+import {CategoryCount} from "../../SWRHooks/useCategoryCount";
 
 ChartJs.register(...registerables);
 
@@ -19,24 +20,32 @@ const options = {
   },
 };
 
-const data = {
-  datasets: [
-    {
-      type: 'bar',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-      data: [
-        {x: 'unknown', y: 170},
-        {x: 'adult', y: 170},
-        {x: 'drug', y: 200},
-        {x: 'gambling', y: 120},
-        {x: 'weapon', y: 15},
-        {x: 'murder', y: 6},
-        {x: 'info-leak', y: 6},
-      ],
-    },
-  ],
-};
-export const BarChart = () => {
+export const BarChart = ({categoryCount}) => {
+  const data = {
+    datasets: [
+      {
+        type: 'bar',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        data: [
+          {x: 'unknown', y: 0},
+          {x: 'adult', y: 0},
+          {x: 'hacking', y: 0},
+          {x: 'drug', y: 0},
+          {x: 'gambling', y: 0},
+          {x: 'weapon', y: 0},
+          {x: 'violence', y: 0},
+          {x: 'counterfeit', y: 0},
+        ],
+      },
+    ],
+  };
+  categoryCount.forEach(c => {
+    if (c.category === '') {
+      data.datasets[0].data[0].y = c.count;
+      return;
+    }
+    data.datasets[0].data.find(d => d.x === c.category).y = c.count;
+  })
   return (
       <Bar data={data} options={options} />
   );

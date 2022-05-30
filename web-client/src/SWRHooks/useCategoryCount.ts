@@ -2,12 +2,12 @@ import useSWR from "swr";
 import {fetcher} from "./fetcher";
 import {plainToInstance} from "class-transformer";
 
-export class CountInfo {
+export class CategoryCount {
   category!: string;
   count!: number;
 }
 
-export const useCount = () => {
+export const useCategoryCount = () => {
   const {data, mutate, error} = useSWR(`/results/number/category`, fetcher);
-  return {count: data && plainToInstance(CountInfo, data as any[]), error, mutate};
+  return {categoryCount: data && plainToInstance(CategoryCount, data as any[]), error, mutate};
 }

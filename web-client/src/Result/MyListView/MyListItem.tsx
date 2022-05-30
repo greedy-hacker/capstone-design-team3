@@ -3,7 +3,11 @@ import {Box, Button, Divider, Paper} from "@mui/material";
 import {EllipsisTypography, T} from "../../CommonComponents/TextComponent";
 import {CategoryTag, LanguageTag, Tag} from "../../CommonComponents/Tag";
 import React from "react";
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 import {SiteInfo} from "../../SWRHooks/useAnalyzedData";
+
+dayjs.locale('ko')
 
 export function MyListItem({row, onClickDetailButton}: { row: SiteInfo, onClickDetailButton: (row: SiteInfo) => void }) {
   function objToTags(obj: { [key: string]: string[] }) {
@@ -47,6 +51,10 @@ export function MyListItem({row, onClickDetailButton}: { row: SiteInfo, onClickD
               <strong>분류</strong> :
               <CategoryTag category={row.category}/>
             </FlexRowBox>
+            <FlexRowBox sx={{alignItems: 'center', pr: 3}}>
+              <strong>트래픽 점수</strong> :
+              <T>{row.traffic}</T>
+            </FlexRowBox>
           </FlexRowBox>
           <Divider/>
           <FlexRowBox sx={{alignItems: 'center'}}>
@@ -61,6 +69,7 @@ export function MyListItem({row, onClickDetailButton}: { row: SiteInfo, onClickD
             기타 : {objToTags(row.others)}
           </FlexRowBox>
           <Divider/>
+          <T>검색 시간: {dayjs.unix(parseFloat(row.search_time)).format('YYYY-MM-DD HH:mm:ss')}</T>
         </FlexColumnBox>
         <Button variant='contained' onClick={() => {
           onClickDetailButton(row);
