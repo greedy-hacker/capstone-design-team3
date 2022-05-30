@@ -66,8 +66,8 @@ export function MonitoringURLSetting({projectId}: { projectId: string }) {
   }
 
   const handleSubmitAdd = async (url: string) => {
-    if (!url.endsWith('.onion')) {
-      alert('url should end with .onion')
+    if (!url.includes('.onion')) {
+      alert('url should include .onion')
       return
     }
     if (!url.startsWith('https://') && !url.startsWith('http://')) {
