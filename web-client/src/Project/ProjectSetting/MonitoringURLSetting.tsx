@@ -48,8 +48,8 @@ export function MonitoringURLSetting({projectId}: { projectId: string }) {
   }
 
   const handleSubmitEdit = async ( newUrl: string) => {
-    if (!newUrl.endsWith('.onion')) {
-      alert('url should end with .onion')
+    if (!newUrl.includes('.onion')) {
+      alert('url should include .onion')
       return
     }
     if (!newUrl.startsWith('https://') && !newUrl.startsWith('http://')) {
