@@ -4,7 +4,7 @@ export function CategoryTag(props: { category: string}) {
   return (
     <Chip
       sx={{m: 0.4, borderRadius: '4px', }}
-      label={props.category || 'none'}
+      label={props.category || 'unknown'}
     />
   )
 }
@@ -13,7 +13,7 @@ export function LanguageTag(props: { language: string}) {
   return (
     <Chip
       sx={{m: 0.4,  borderRadius: '4px', }}
-      label={props.language || 'none'}
+      label={props.language || 'unknown'}
     />
   )
 }
