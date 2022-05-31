@@ -36,7 +36,7 @@ export function Main() {
             const emails = new Set();
             const phones = new Set();
             const credits = new Set();
-            const accounts = new Set();
+            const passports = new Set();
             const googleAnalytics = new Set();
             const googleSiteVerifications = new Set();
             const BTCs = new Set();
@@ -45,7 +45,7 @@ export function Main() {
               row.personal_information['email']?.forEach(v => emails.add(v));
               row.personal_information['phone']?.forEach(v => phones.add(v));
               row.personal_information['credit']?.forEach(v => credits.add(v));
-              row.personal_information['account']?.forEach(v => accounts.add(v));
+              row.personal_information['passport']?.forEach(v => passports.add(v));
               row.site_tracking_codes['google_analytics']?.forEach(v => googleAnalytics.add(v));
               row.site_tracking_codes['google_site_verification']?.forEach(v => googleSiteVerifications.add(v));
               row.others['bitcoin']?.forEach(v => BTCs.add(v));
@@ -55,7 +55,7 @@ export function Main() {
               email: emails.size,
               phone: phones.size,
               credit: credits.size,
-              account: accounts.size,
+              passport: passports.size,
               ga: googleAnalytics.size,
               gsv: googleSiteVerifications.size,
               btc: BTCs.size,
@@ -100,7 +100,7 @@ export function Main() {
                 <T>email : {csvResult.email}</T>
                 <T>phone : {csvResult.phone}</T>
                 <T>credit card : {csvResult.credit}</T>
-                <T>account : {csvResult.account}</T>
+                <T>passport : {csvResult.passport}</T>
               </FlexColumnBox>
               <FlexColumnBox sx={{flex: 1, mx: '16px', p: '16px'}}>
                 <T sx={{fontSize: '1.5em', pb: '16px'}}>Site Tracking Code</T>
